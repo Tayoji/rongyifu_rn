@@ -4,9 +4,11 @@
 import React, {Component, PropTypes} from 'react';
 import {
     View,
+    Text,
     Image,
     Button,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight
 } from 'react-native';
 import {StackNavigator} from 'react-navigation';
 const images = [require('../img/slide_background_0.png'),
@@ -21,6 +23,12 @@ export default class Root extends Component {
 
     }
 
+    static navigationOptions = {
+        title: 'HomePage',
+        header: null,
+
+    }
+
     componentDidMount() {
         let self = this;
         var count = this.state.index
@@ -29,12 +37,10 @@ export default class Root extends Component {
             if (count >= images.length) {
                 count = 0
             }
-            console.log(count)
-
             self.setState({
                 index: count
             })
-        }, 1000)
+        }, 1500)
     }
 
     componentWillUnmount() {
@@ -43,20 +49,34 @@ export default class Root extends Component {
 
     render() {
         const {index} = this.state;
+        const {navigate} = this.props.navigation
         return (<View style={styles.container}>
-
             <Image style={styles.image} source={images[index]} resizeMode={'cover'}>
-
-                <Button style={styles.button} title="注册" onPress={() => {
-                }}/>
-                <Button style={styles.button} title="登录" onPress={() => {
-                }}/>
+                <TouchableHighlight style={styles.reg}>
+                    <Text style={{backgroundColor: 'rgba(0,0,0,0)', color: '#333', fontSize: 18, textAlign: 'center'}}>
+                        注册
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight style={styles.login} onPress={() => {
+                    navigate('Login', {mode: 'model'})
+                }}>
+                    <Text style={{
+                        padding: 10,
+                        backgroundColor: 'rgba(0,0,0,0)',
+                        color: '#fff',
+                        fontSize: 18,
+                        textAlign: 'center'
+                    }}>
+                        登录
+                    </Text>
+                </TouchableHighlight>
             </Image>
 
         </View>)
 
     }
 }
+const b = "rgb(34,161,205)"
 var styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -68,16 +88,33 @@ var styles = StyleSheet.create({
         height: '100%',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems:'flex-end',
-        paddingBottom:50,
+        alignItems: 'flex-end',
+        paddingBottom: 50
     },
-    button: {
-        paddingRight: 100,
-        flex: 3,
-        backgroundColor: '#0f0',
-        borderWidth:1,
-        borderColor:'#F0F',
-}
+    buttons: {
+        flex: 1,
+        height: 40,
+        width: '100%'
+    }
+    ,
+    reg: {
+        backgroundColor: '#fff',
+        width: 130,
+        height: 44,
+        borderWidth: 1,
+        borderRadius: 22,
+        borderColor: '#fff',
+        justifyContent: 'center'
+    },
 
+    login: {
+        backgroundColor: b,
+        width: 130,
+        height: 44,
+        borderWidth: 1,
+        borderRadius: 22,
+        borderColor: b,
+        justifyContent: 'center'
+    }
 
 })
